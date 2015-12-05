@@ -5,6 +5,9 @@ puzzleL <- read.table("puzzle_nov25_2015.delim", header=TRUE)
 puzzleH <- read.table("puzzlehard_nov25_2015.delim", header=TRUE)
 puzzleX <- read.table("puzzleMvE_dec04_2015.delim", header=TRUE)
 
+# choose puzzle to solve
+puzzle0 <- puzzleX
+
 # FUNCTIONS
 LtoN <- function(table) {
         for(i in 1:ncol(table)) {
@@ -37,12 +40,15 @@ identity <- function(table, target=FALSE) {
         output
 }
 
-order <- function(puzzle, blueprint) {
+ordering <- function(puzzle, blueprint, cols=TRUE) {
         output <- vector()
         
         for(i in 1:length(blueprint)) {
                 for(j in 1:length(puzzle)) {
-                        if(blueprint[i] == puzzle[j]) {
+                        if(blueprint[i] == puzzle[j] & cols==TRUE) {
+                                output[i] <- j
+                        }
+                        if(blueprint[j] == puzzle[i] & cols==FALSE) {
                                 output[i] <- j
                         }
                 }
@@ -54,7 +60,7 @@ order <- function(puzzle, blueprint) {
 target    <- tday
 blueprint <- identity(LtoN(target), target=TRUE)
 
-puzzle    <- puzzleX
+puzzle    <- puzzle0
 puzzleID  <- identity(LtoN(puzzle))
 
 # push a column?
@@ -83,8 +89,14 @@ for (i in 1:ncol(puzzle)) {
 puzzleID <- identity(LtoN(puzzle), target=TRUE)
 
 # determine right row and col order
-rowOrder <- order(puzzleID$rows[,1], blueprint$rows[,1])
-colOrder <- order(puzzleID$cols[1,], blueprint$cols[1,])
+rowOrder <- ordering(puzzleID$rows[,1], blueprint$rows[,1], cols=FALSE)
+colOrder <- ordering(puzzleID$cols[1,], blueprint$cols[1,], cols=TRUE)
 
 # apply select to get right order
-arrange(select(puzzle, colOrder), rowOrder)
+puzzle <- arrange(select(puzzle, colOrder), rowOrder)
+
+print("Original")
+puzzle0
+
+print("Solution")
+puzzle
