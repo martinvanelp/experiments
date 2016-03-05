@@ -20,7 +20,7 @@ idata$hoog <- make.numeric(idata$hoog)
 idata$laag <- make.numeric(idata$laag)
 idata$slot <- make.numeric(idata$slot)
 
-pdata <- subset(idata, idata$datum >= "1999-01-01")
+pdata <- idata[idata$datum >= "1999-01-01" & idata$datum < "2013-01-01",]
 
 #  base plot data
 plot(pdata$datum, pdata$slot, type = "l")
