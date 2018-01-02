@@ -12,7 +12,7 @@ stockAnalysis <- function(symbol, from) {
         lct <- Sys.getlocale("LC_TIME"); Sys.setlocale("LC_TIME", "C")
         
         # gather data
-        url <- paste0("https://www.google.com/finance/historical?q=",
+        url <- paste0("https://finance.google.com/finance/historical?q=",
                       symbol, "&startdate=", from, "&output=csv")
         idata <- read.csv(url, stringsAsFactors = FALSE)
         names(idata)[1] <- "Date"
@@ -24,7 +24,7 @@ stockAnalysis <- function(symbol, from) {
         
         # select data
         pdata <- idata[idata$Date >= "1990-01-01" &
-                               idata$Date < "2016-01-01",]
+                               idata$Date < "2018-01-01",]
         
         # base plot data
         # plot(pdata$Date, pdata$Close, type = "l")
