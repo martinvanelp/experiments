@@ -29,7 +29,7 @@ stockAnalysis <- function(symbol, from) {
         
         # select data
         pdata <- idata[Date >= "1990-01-01" &
-                               Date < "2021-01-01",]
+                               Date < "2022-01-01",]
         
         # base plot data
         # plot(pdata$Date, pdata$Close, type = "l")
